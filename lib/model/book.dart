@@ -13,14 +13,14 @@ class BookFields {
   static final String image = 'image';
 }
 
-class Note {
+class Book {
   final int? id;
   final String title;
   final String description;
   final String image;
   final DateTime createdTime;
 
-  const Note({
+  const Book({
     this.id,
     required this.title,
     required this.description,
@@ -28,7 +28,7 @@ class Note {
     required this.image,
   });
 
-  static Note fromJson(Map<String, Object?> json) => Note(
+  static Book fromJson(Map<String, Object?> json) => Book(
         id: json[BookFields.id] as int?,
         title: json[BookFields.title] as String,
         description: json[BookFields.description] as String,
@@ -44,14 +44,14 @@ class Note {
         BookFields.time: createdTime.toIso8601String(),
       };
 
-  Note copy({
+  Book copy({
     int? id,
     String? title,
     String? description,
     String? image,
     DateTime? createdTime,
   }) =>
-      Note(
+      Book(
         id: id ?? this.id,
         title: title ?? this.title,
         description: description ?? this.description,

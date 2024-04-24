@@ -4,33 +4,33 @@ import '../db/database.dart';
 import '../model/book.dart';
 import '../pages/edit_book_page.dart';
 
-class NoteDetailPage extends StatefulWidget {
-  final int noteId;
+class BookDetailPage extends StatefulWidget {
+  final int BookId;
 
-  const NoteDetailPage({
+  const BookDetailPage({
     Key? key,
-    required this.noteId,
+    required this.BookId,
   }) : super(key: key);
 
   @override
-  State<NoteDetailPage> createState() => _NoteDetailPageState();
+  State<BookDetailPage> createState() => _BookDetailPageState();
 }
 
-class _NoteDetailPageState extends State<NoteDetailPage> {
-  late Note note;
+class _BookDetailPageState extends State<BookDetailPage> {
+  late Book book;
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
 
-    refreshNote();
+    refreshBook();
   }
 
-  Future refreshNote() async {
+  Future refreshBook() async {
     setState(() => isLoading = true);
 
-    note = await NotesDatabase.instance.readNote(widget.noteId);
+    book = await BooksDatabase.instance.readBook(widget.BookId);
 
     setState(() => isLoading = false);
   }
@@ -47,10 +47,11 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   children: [
-                    Image.network(note.image),
+                    // get image from image link
+                    Image.network(book.image),
                     const SizedBox(height: 10),
                     Text(
-                      note.title,
+                      book.title,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 22,
@@ -59,12 +60,12 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      DateFormat.yMMMd().format(note.createdTime),
+                      DateFormat.yMMMd().format(book.createdTime),
                       style: const TextStyle(color: Colors.white38),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      note.description,
+                      book.description,
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 18),
                     ),
@@ -81,17 +82,17 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
         if (isLoading) return;
 
         await Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => AddEditNotePage(note: note),
+          builder: (context) => AddEditBookPage(book: book),
         ));
 
-        refreshNote();
+        refreshBook();
       });
 
   Widget deleteButton() => IconButton(
         icon: const Icon(Icons.delete),
         color: Colors.lightBlue,
         onPressed: () async {
-          await NotesDatabase.instance.delete(widget.noteId);
+          await BooksDatabase.instance.delete(widget.BookId);
 
           Navigator.of(context).pop();
         },

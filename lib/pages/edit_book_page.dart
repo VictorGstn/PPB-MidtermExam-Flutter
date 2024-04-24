@@ -3,19 +3,19 @@ import '../db/database.dart';
 import '../model/book.dart';
 import '../widget/book_form_widget.dart';
 
-class AddEditNotePage extends StatefulWidget {
-  final Note? note;
+class AddEditBookPage extends StatefulWidget {
+  final Book? book;
 
-  const AddEditNotePage({
+  const AddEditBookPage({
     Key? key,
-    this.note,
+    this.book,
   }) : super(key: key);
 
   @override
-  State<AddEditNotePage> createState() => _AddEditNotePageState();
+  State<AddEditBookPage> createState() => _AddEditbookPageState();
 }
 
-class _AddEditNotePageState extends State<AddEditNotePage> {
+class _AddEditbookPageState extends State<AddEditBookPage> {
   final _formKey = GlobalKey<FormState>();
   late bool isImportant;
   late int number;
@@ -27,9 +27,9 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   void initState() {
     super.initState();
 
-    title = widget.note?.title ?? '';
-    description = widget.note?.description ?? '';
-    image = widget.note?.image ?? '';
+    title = widget.book?.title ?? '';
+    description = widget.book?.description ?? '';
+    image = widget.book?.image ?? '';
   }
 
   @override
@@ -39,7 +39,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
         ),
         body: Form(
           key: _formKey,
-          child: NoteFormWidget(
+          child: BookFormWidget(
             title: title,
             description: description,
             image: image,
@@ -52,8 +52,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       );
 
   Widget buildButton() {
-    final isFormValid =
-        title.isNotEmpty && description.isNotEmpty && image.isNotEmpty;
+    final isFormValid = title.isNotEmpty && description.isNotEmpty;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -62,46 +61,46 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
           foregroundColor: Colors.lightBlueAccent,
           backgroundColor: isFormValid ? null : Colors.grey.shade700,
         ),
-        onPressed: addOrUpdateNote,
+        onPressed: addOrUpdatebook,
         child: const Text('Save'),
       ),
     );
   }
 
-  void addOrUpdateNote() async {
+  void addOrUpdatebook() async {
     final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
-      final isUpdating = widget.note != null;
+      final isUpdating = widget.book != null;
 
       if (isUpdating) {
-        await updateNote();
+        await updatebook();
       } else {
-        await addNote();
+        await addbook();
       }
 
       Navigator.of(context).pop();
     }
   }
 
-  Future updateNote() async {
-    final note = widget.note!.copy(
+  Future updatebook() async {
+    final book = widget.book!.copy(
       title: title,
       description: description,
       image: image,
     );
 
-    await NotesDatabase.instance.update(note);
+    await BooksDatabase.instance.update(book);
   }
 
-  Future addNote() async {
-    final note = Note(
+  Future addbook() async {
+    final book = Book(
       title: title,
       description: description,
       image: image,
       createdTime: DateTime.now(),
     );
 
-    await NotesDatabase.instance.create(note);
+    await BooksDatabase.instance.create(book);
   }
 }

@@ -4,14 +4,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:midterm/model/book.dart';
 
-class NotesDatabase {
-  static final NotesDatabase instance = NotesDatabase._init();
+class BooksDatabase {
+  static final BooksDatabase instance = BooksDatabase._init();
   static Database? _database;
-  NotesDatabase._init();
+  BooksDatabase._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('notes.db');
+    _database = await _initDB('Books.db');
     return _database!;
   }
 
@@ -36,22 +36,14 @@ CREATE TABLE $tableBooks (
 ''');
   }
 
-  Future<Note> create(Note note) async {
+  Future<Book> create(Book Book) async {
     final db = await instance.database;
 
-    // final json = note.toJson();
-    // final columns =
-    //     '${BookFields.title}, ${BookFields.description}, ${BookFields.time}';
-    // final values =
-    //     '${json[BookFields.title]}, ${json[BookFields.description]}, ${json[BookFields.time]}';
-    // final id = await db
-    //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
-
-    final id = await db.insert(tableBooks, note.toJson());
-    return note.copy(id: id);
+    final id = await db.insert(tableBooks, Book.toJson());
+    return Book.copy(id: id);
   }
 
-  Future<Note> readNote(int id) async {
+  Future<Book> readBook(int id) async {
     final db = await instance.database;
 
     final maps = await db.query(
@@ -62,32 +54,30 @@ CREATE TABLE $tableBooks (
     );
 
     if (maps.isNotEmpty) {
-      return Note.fromJson(maps.first);
+      return Book.fromJson(maps.first);
     } else {
       throw Exception('ID $id not found');
     }
   }
 
-  Future<List<Note>> readAllNotes() async {
+  Future<List<Book>> readAllBooks() async {
     final db = await instance.database;
 
     final orderBy = '${BookFields.time} ASC';
-    // final result =
-    //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
 
     final result = await db.query(tableBooks, orderBy: orderBy);
 
-    return result.map((json) => Note.fromJson(json)).toList();
+    return result.map((json) => Book.fromJson(json)).toList();
   }
 
-  Future<int> update(Note note) async {
+  Future<int> update(Book Book) async {
     final db = await instance.database;
 
     return db.update(
       tableBooks,
-      note.toJson(),
+      Book.toJson(),
       where: '${BookFields.id} = ?',
-      whereArgs: [note.id],
+      whereArgs: [Book.id],
     );
   }
 

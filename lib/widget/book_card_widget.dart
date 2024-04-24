@@ -18,7 +18,7 @@ class NoteCardWidget extends StatelessWidget {
     required this.index,
   }) : super(key: key);
 
-  final Note note;
+  final Book note;
   final int index;
 
   @override

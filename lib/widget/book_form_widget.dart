@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NoteFormWidget extends StatelessWidget {
+class BookFormWidget extends StatelessWidget {
   final String? title;
   final String? description;
   final String? image;
@@ -8,7 +8,7 @@ class NoteFormWidget extends StatelessWidget {
   final ValueChanged<String> onChangedDescription;
   final ValueChanged<String> onChangedImage;
 
-  const NoteFormWidget({
+  const BookFormWidget({
     Key? key,
     this.title = '',
     this.description = '',

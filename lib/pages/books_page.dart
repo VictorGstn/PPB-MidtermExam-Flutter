@@ -14,7 +14,7 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
-  late List<Note> notes;
+  late List<Book> notes;
   bool isLoading = false;
 
   @override
@@ -26,7 +26,7 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   void dispose() {
-    NotesDatabase.instance.close();
+    BooksDatabase.instance.close();
 
     super.dispose();
   }
@@ -34,7 +34,7 @@ class _NotesPageState extends State<NotesPage> {
   Future refreshNotes() async {
     setState(() => isLoading = true);
 
-    notes = await NotesDatabase.instance.readAllNotes();
+    notes = await BooksDatabase.instance.readAllBooks();
 
     setState(() => isLoading = false);
   }
@@ -66,7 +66,7 @@ class _NotesPageState extends State<NotesPage> {
           child: const Icon(Icons.add),
           onPressed: () async {
             await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const AddEditNotePage()),
+              MaterialPageRoute(builder: (context) => const AddEditBookPage()),
             );
 
             refreshNotes();
@@ -74,8 +74,6 @@ class _NotesPageState extends State<NotesPage> {
         ),
       );
   Widget buildNotes() => StaggeredGrid.count(
-      // itemCount: notes.length,
-      // staggeredTileBuilder: (index) => StaggeredTile.fit(2),
       crossAxisCount: 2,
       mainAxisSpacing: 2,
       crossAxisSpacing: 2,
@@ -89,7 +87,7 @@ class _NotesPageState extends State<NotesPage> {
             child: GestureDetector(
               onTap: () async {
                 await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => NoteDetailPage(noteId: note.id!),
+                  builder: (context) => BookDetailPage(BookId: note.id!),
                 ));
 
                 refreshNotes();
