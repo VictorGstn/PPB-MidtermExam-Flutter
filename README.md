@@ -1,16 +1,8 @@
-# midterm
+5025211159
+Victor Gustinova
+# Midterm
+![ss_flutter_midterm](https://github.com/VictorGstn/PPB-MidtermExam-Flutter/assets/125529445/0102bbda-56a2-4e94-90ab-a591d7f298a9)
+![WhatsApp Image 2024-04-24 at 09 56 01](https://github.com/VictorGstn/PPB-MidtermExam-Flutter/assets/125529445/f9aaaaee-55a8-4e5b-8f76-9941e492a340)
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+this is based on previous sqflite_note project with some change
+i'm using an android phone with usb debugging to run the app
